@@ -13,16 +13,19 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 120
     steps:
-      - name: Check out Vita project
+      - name: Check out the exact commit that triggered this run
         uses: actions/checkout@v4
-        with:
-          ref: native-vita-recomp-test
+
+      - name: Validate build scripts before doing expensive work
+        run: |
+          bash -n scripts/test_native_vita_recomp.sh
+          bash -n scripts/vita_compile_generated.sh
 
       - name: Install host build dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
-            build-essential clang cmake ninja-build git curl unzip python3 \
+            build-essential clang lld cmake ninja-build git curl unzip python3 \
             libgtk-3-dev libfreetype-dev libsdl2-dev
 
       - name: Generate and cross-compile Mario Party 3 game code
