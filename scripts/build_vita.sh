@@ -50,6 +50,9 @@ echo "== Customizing dedicated LiveArea bubble =="
 sed -i 's/set(VITA_APP_NAME .*)/set(VITA_APP_NAME "Mario Party 3")/' Source/CMakeLists.txt
 sed -i 's/set(VITA_TITLEID  "DEDALOX64")/set(VITA_TITLEID  "MP3V00001")/' Source/CMakeLists.txt
 
+echo "== Patching direct Mario Party 3 boot =="
+python3 "$ROOT/scripts/patch_game.py" Source/SysVita/main.cpp
+
 git config --global --add safe.directory "$PWD"
 mkdir -p daedbuild
 cd daedbuild
