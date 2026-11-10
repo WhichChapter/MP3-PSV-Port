@@ -1,0 +1,35 @@
+name: Build Mario Party 3 for PS Vita
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out this project
+        uses: actions/checkout@v4
+
+      - name: Build Vita package
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}:/workspace" \
+            -w /workspace \
+            gnuton/vitasdk-docker:20250520 \
+            bash /workspace/scripts/build_vita.sh
+
+      - name: Upload VPK and emulator data
+        uses: actions/upload-artifact@v4
+        with:
+          name: mario-party-3-vita-build
+          path: |
+            artifacts/MarioParty3.vpk
+            artifacts/DaedalusX64.zip
+            artifacts/BUILD-INFO.txt
+          if-no-files-found: error
+          retention-days: 14
