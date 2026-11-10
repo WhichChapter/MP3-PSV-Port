@@ -7,10 +7,10 @@ ROM_ARCHIVE="$ROOT/work/mario-party-3-us.zip"
 ROM_DIR="$UPSTREAM/roms"
 ROM="$ROM_DIR/marioparty3.us.z64"
 
-: "${ROM_ARCHIVE_URL:?Set ROM_ARCHIVE_URL to the user's USA ROM ZIP URL}"
+: "${ROM_ARCHIVE_URL:?ROM_ARCHIVE_URL is required}"
 mkdir -p "$ROOT/work" "$ROM_DIR"
 
-echo "== Downloading the user's ROM archive (temporary runner storage only) =="
+echo "== Downloading the supplied ROM archive (temporary runner storage only) =="
 curl --fail --location --show-error --retry 3 --connect-timeout 20 \
   "$ROM_ARCHIVE_URL" -o "$ROM_ARCHIVE"
 mkdir -p "$ROOT/work/rom-extract"
@@ -45,5 +45,6 @@ docker run --rm \
   gnuton/vitasdk-docker:20250520 \
   bash /workspace/scripts/vita_compile_generated.sh
 
-echo "== Native Vita recompilation milestone passed =="
+echo "== Generated game-code cross-compile milestone passed =="
+echo "This test does not yet build a complete Vita runtime or VPK."
 echo "No ROM, generated source, object file, or VPK is uploaded as an artifact."
