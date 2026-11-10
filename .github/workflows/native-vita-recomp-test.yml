@@ -1,6 +1,8 @@
 name: Test native Mario Party 3 recompilation for Vita
 
 on:
+  push:
+    branches: [native-vita-recomp-test]
   workflow_dispatch:
 
 permissions:
