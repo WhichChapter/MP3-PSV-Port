@@ -10,9 +10,12 @@ Mario Party 3 is an N64 program distributed here only as a user-supplied
 [DaedalusX64-vitaGL](https://github.com/Rinnegatamante/DaedalusX64-vitaGL),
 an open-source Nintendo 64 emulator for PS Vita, as its emulation engine.
 
-The workflow builds a package with the app name **Mario Party 3** and title ID
-`MP3V00001`. The emulator engine remains upstream; this repository does not
-claim to be a native decompilation or a full source port of the original game.
+The workflow builds a dedicated **Mario Party 3** Vita bubble with title ID
+`MP3V00001`. At startup, it checks for your European ROM at the expected path
+and boots it directly, skipping the emulator's game-selection screen. If the
+ROM is missing, the normal emulator menu remains available. The N64 game itself
+is still executed by DaedalusX64-vitaGL; this is not a native decompilation or
+a native Vita reimplementation.
 
 ## Build
 
@@ -28,8 +31,8 @@ When the workflow succeeds, download the artifact named
 ## ROM setup
 
 The ROM is deliberately not committed to GitHub and is not included in the
-public build artifact. Download your own dump as `baserom.z64` and place it
-in the emulator's ROM folder on the Vita:
+public build artifact. Keep your own dump named exactly as below and place it
+at this path on the Vita:
 
 `ux0:data/DaedalusX64/Roms/`
 
