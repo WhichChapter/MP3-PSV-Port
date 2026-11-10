@@ -45,4 +45,28 @@ done
   echo "ERROR: no generated C/C++ source files were found." >&2
   exit 1
 }
+# First runtime-port checkpoint: compile ultramodern itself for the Vita.
+# This deliberately stops before linking or claiming a working renderer.
+runtime_dir="lib/N64ModernRuntime/ultramodern"
+runtime_includes=(
+  -I"$runtime_dir/include"
+  -Ilib/N64ModernRuntime/thirdparty
+  -Ilib/N64ModernRuntime/thirdparty/concurrentqueue
+  -Ilib/N64ModernRuntime/thirdparty/sse2neon
+)
+runtime_count=0
+mkdir -p /workspace/work/vita-runtime-objects
+for src in "$runtime_dir"/src/*.cpp; do
+  [[ -f "$src" ]] || continue
+  out="/workspace/work/vita-runtime-objects/$(basename "$src").o"
+  echo "Vita runtime C++ compile: $src"
+  arm-vita-eabi-g++ -std=c++20 -fno-strict-aliasing -Wno-unused-parameter \
+    "${runtime_includes[@]}" -c "$src" -o "$out"
+  runtime_count=$((runtime_count + 1))
+done
+[[ "$runtime_count" -gt 0 ]] || {
+  echo "ERROR: no ultramodern runtime source files were found." >&2
+  exit 1
+}
+echo "VITA_ULTRAMODERN_COMPILE_OK: compiled $runtime_count runtime source files."
 echo "VITA_GAME_CODE_COMPILE_OK: compiled $count generated source files."
