@@ -1,0 +1,15 @@
+# Personal ROM dumps — never commit these
+*.z64
+*.n64
+*.v64
+baserom.*
+
+# Build output
+artifacts/
+artifacts_*.zip
+daedalus/
+build/
+daedbuild/
+*.elf
+*.self
+*.vpk
