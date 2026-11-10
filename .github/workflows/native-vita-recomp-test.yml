@@ -1,0 +1,29 @@
+name: Test native Mario Party 3 recompilation for Vita
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cross-compile-game-code:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Check out Vita project
+        uses: actions/checkout@v4
+        with:
+          ref: native-vita-recomp-test
+
+      - name: Install host build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential clang cmake ninja-build git curl unzip python3 \
+            libgtk-3-dev libfreetype-dev libsdl2-dev
+
+      - name: Generate and cross-compile Mario Party 3 game code
+        env:
+          ROM_ARCHIVE_URL: https://file.garden/avMHBM8xM88l1IFr/Mario%20Party%203%20(USA).zip
+        run: bash scripts/test_native_vita_recomp.sh
